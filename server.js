@@ -2,6 +2,8 @@ import chalk from 'chalk';
 import figlet from 'figlet';
 import readlineSync from 'readline-sync';
 import {startGame} from "./game.js";
+import { startOption } from './option.js';
+import { startAchivement } from './achievements.js';
 
 // 로비 화면을 출력하는 함수
 function displayLobby() {
@@ -42,7 +44,6 @@ function displayLobby() {
     console.log(chalk.gray('1-4 사이의 수를 입력한 뒤 엔터를 누르세요.'));
 }
 
-//2번과 3번 옵션 로직 구성
 // 유저 입력을 받아 처리하는 함수
 function handleUserInput() {
     const choice = readlineSync.question("입력:");
@@ -54,13 +55,17 @@ function handleUserInput() {
             startGame();
             break;
         case '2':
-            console.log(chalk.yellow('구현 준비중입니다.. 게임을 시작하세요'));
+            console.log(chalk.yellow('업적을 선택하였습니다.'));
             // 업적 확인하기 로직을 구현
+            startAchivement();
+            displayLobby(); // 로비로 돌아옴
             handleUserInput();
             break;
         case '3':
-            console.log(chalk.blue('구현 준비중입니다.. 게임을 시작하세요'));
+            console.log(chalk.blue('옵션을 선택하였습니다.'));
             // 옵션 메뉴 로직을 구현
+            startOption();
+            displayLobby(); // 로비로 돌아옴
             handleUserInput();
             break;
         case '4':
