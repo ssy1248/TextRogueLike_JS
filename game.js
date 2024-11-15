@@ -485,8 +485,10 @@ const battle = async (stage, player, monster, isBossStage) => {
     }
     if (player.hp <= 0) {
       turnlogs.push(chalk.redBright("플레이어가 패배했습니다."));
+      playerAchivement.lose += 1;
     } else if (monster.hp <= 0) {
       playerLogs.push(chalk.green("몬스터를 처치했습니다!"));
+      playerAchivement.monsterKill += 1;
     }
 
     // 현재 턴 로그 출력 후 잠시 멈춤
@@ -633,7 +635,6 @@ const battleResultFuntion = async (stage, player, exp, gold) => {
     await delay(500);
   }
 
-  //턴이 끝나고 아이템을 선택한 후 휴식? / 강행하면 경험치 추가? 아이템 추가 증정
   player.stageHealingPlayer();
 
   stage++;
@@ -724,7 +725,6 @@ export async function startGame() {
 
     // 스테이지 클리어 및 게임 종료 조건
     stage = await battleResultFuntion(stage, player, monster.exp, monster.gold);
-    playerAchivement.monsterKill += 1;
   }
   playerAchivement.clear += 1;
 }

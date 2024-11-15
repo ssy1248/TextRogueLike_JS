@@ -4,6 +4,7 @@ import readlineSync from 'readline-sync';
 class Achive{
     constructor(){
         this.clear = 0; //클리어 횟수
+        this.lose = 0;
         this.useItem = 0;
         this.getItem = 0;
         this.useSkill = 0;
