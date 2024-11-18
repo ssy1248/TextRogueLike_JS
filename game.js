@@ -230,20 +230,20 @@ class Player {
                   : chalk.greenBright(`${dmg}의 데미지를 주었습니다.`)
               );
             }
-            playerAchivement.useSkill += 1;
+            playerAchivement.update('useSkill');
             break;
 
           case "Power Strike":
             //트루 데미지 주는 함수
             target.hp -= this.atkWithItem;
             console.log(chalk.redBright(`Power Strike로 ${trueDamage}의 트루 데미지를 주었습니다! 남은 HP: ${target.hp}`));
-            playerAchivement.useSkill += 1;
+            playerAchivement.update('useSkill');
             break;
 
           case "Shield Up":
             //보호막 생성
             this.shield += 50;
-            playerAchivement.useSkill += 1;
+            playerAchivement.update('useSkill');
             break;
         }
       } else {
@@ -485,10 +485,10 @@ const battle = async (stage, player, monster, isBossStage) => {
     }
     if (player.hp <= 0) {
       turnlogs.push(chalk.redBright("플레이어가 패배했습니다."));
-      playerAchivement.lose += 1;
+      playerAchivement.update('lose');
     } else if (monster.hp <= 0) {
       playerLogs.push(chalk.green("몬스터를 처치했습니다!"));
-      playerAchivement.monsterKill += 1;
+      playerAchivement.update('monsterKill');
     }
 
     // 현재 턴 로그 출력 후 잠시 멈춤
@@ -555,7 +555,7 @@ const battleCheck = async (player, monster, choice, logs) => {
         player.useItem(selectedItem);
         player.inventory.splice(parseInt(itemChoice) - 1, 1); // 아이템 사용 후 제거
         logs.push(chalk.green(`플레이어가 ${selectedItem}을(를) 사용했습니다.`));
-        playerAchivement.useItem += 1;
+        playerAchivement.update('useItem');
         return true;
       }
     }
@@ -631,7 +631,7 @@ const battleResultFuntion = async (stage, player, exp, gold) => {
   if (selectedItem) {
     player.inventory.push(selectedItem);
     console.log(chalk.yellow(`${selectedItem}이(가) 인벤토리에 추가되었습니다.`));
-    playerAchivement.getItem += 1;
+    playerAchivement.update('getItem');
     await delay(500);
   }
 
@@ -693,10 +693,6 @@ const skillUi = async (player) => {
   }
 }
 
-//11-15 제작 
-//14~18 업적, 옵션
-//19~20 마무리
-
 //게임 시작 로직 | import할 함수는 앞에 export붙이기 
 export async function startGame() {
   console.clear();
@@ -726,5 +722,5 @@ export async function startGame() {
     // 스테이지 클리어 및 게임 종료 조건
     stage = await battleResultFuntion(stage, player, monster.exp, monster.gold);
   }
-  playerAchivement.clear += 1;
+  playerAchivement.update('clear');
 }
